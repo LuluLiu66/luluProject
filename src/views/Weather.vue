@@ -24,8 +24,8 @@ export default {
   name: 'WeatherView',
   data() {
     return {
-      city: '',
       weatherData: null,
+      city: '',
     };
   },
   methods: {
