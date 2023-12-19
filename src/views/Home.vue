@@ -1,10 +1,9 @@
 <template>
-  <main>
-    <h2>{{ time }}</h2>
-    <h3>{{ info?.symbol }}</h3>
-    <div>{{ filter0 }} : {{ maxPrice }}</div>
-    <div>{{ filter1 }} : {{ maxQty1 }}</div>
-    <div>{{ filter3 }} : {{ maxQty3 }}</div>
+  <main class="container">
+    <p class="time">Current Date and Time: {{ currentDate }}</p>
+    <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
+    <p class="price">BNBUSDT Price: {{ bnbusdtPrice }}</p>
+    <button @click="fetchPrices">Refresh</button>
   </main>
 </template>
 
@@ -16,44 +15,63 @@ export default {
   name: 'HomeView',
   data() {
     return {
-      info: null,
-      time: null
+      btcusdtPrice: null,
+      bnbusdtPrice: null,
+      currentDate: null,
     }
   },
-
-  computed: {
-    filter0() {
-      return this.info?.filters[0]?.filterType;
+  methods: {
+    async fetchPrice(symbol) {
+      try {
+        const response = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+        return response.data.price;
+      } catch (error) {
+        console.error(error);
+      }
     },
-    maxPrice() {
-      return this.info?.filters[0]?.maxPrice;
-    },
-    filter1() {
-      return this.info?.filters[1]?.filterType;
-    },
-    maxQty1() {
-      return this.info?.filters[1]?.maxQty;
-    },
-    filter3() {
-      return this.info?.filters[3]?.filterType;
-    },
-    maxQty3() {
-      return this.info?.filters[3]?.maxQty;
+    async fetchPrices() {
+      this.btcusdtPrice = await this.fetchPrice('BTCUSDT');
+      this.bnbusdtPrice = await this.fetchPrice('BNBUSDT');
+      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
     }
   },
-
-  async mounted() {
-    try {
-      const response = await axios.get('https://api.binance.com/api/v3/exchangeInfo');
-      const { symbols, serverTime } = response.data;
-      this.info = symbols[0];
-      this.time = dayjs(serverTime, 'x').format('YYYY-MM-DD HH:mm:ss');
-    } catch (error) {
-      console.error(error);
-    }
+  mounted() {
+    this.fetchPrices();
   }
 }
 </script>
 
-<style scss scoped>
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.time, .price {
+  font-size: 18px;
+  color: #ff4500;
+}
+
+.price {
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #ff4500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff5500;
+}
 </style>
