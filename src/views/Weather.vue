@@ -15,9 +15,8 @@
   </div>
 </template>
 
-
 <script>
-import axios from 'axios';
+import axios from 'axios'
 const apikey = 'bd79b88f223254c2ac009f65eec629b6'
 
 export default {
@@ -25,20 +24,21 @@ export default {
   data() {
     return {
       weatherData: null,
-      city: '',
-    };
+      city: ''
+    }
   },
   methods: {
     getWeatherInfo(city) {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`;
-      axios.get(url)
-        .then(response => {
-          this.weatherData = response.data;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`
+      axios
+        .get(url)
+        .then((response) => {
+          this.weatherData = response.data
         })
-        .catch(error => {
-          console.error(error);
-        });
-    },
+        .catch((error) => {
+          console.error(error)
+        })
+    }
   }
 }
 </script>
@@ -59,6 +59,7 @@ export default {
   border-radius: 10px;
   width: 100%;
   max-width: 500px;
+  color: #333;
 }
 
 .weather-detail {

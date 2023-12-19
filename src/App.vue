@@ -1,12 +1,10 @@
 <template>
   <div class="app-container">
     <header>
-      <div class="wrapper">
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/weather">Weather</RouterLink>
-        </nav>
-      </div>
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/weather">Weather</RouterLink>
+      </nav>
     </header>
 
     <div class="content">
@@ -36,15 +34,6 @@ header {
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.content {
-  flex-grow: 1;
-  margin-left: 200px;
-  padding: 20px;
-  background-color: #fff;
-  height: 100vh;
-  overflow-y: auto;
-}
-
 nav {
   display: flex;
   flex-direction: column;
@@ -69,11 +58,20 @@ nav a.router-link-exact-active {
   color: #007bff;
 }
 
+.content {
+  flex-grow: 1;
+  margin-left: 200px;
+  padding: 20px;
+  background-color: #fff;
+  height: 100vh;
+  overflow-y: auto;
+}
+
 @media (max-width: 768px) {
   .app-container {
     display: block;
   }
-  
+
   header {
     width: 100%;
     height: auto;
@@ -84,6 +82,5 @@ nav a.router-link-exact-active {
     margin-left: 0;
     padding: 20px;
   }
-
 }
 </style>
