@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     getWeatherInfo(city) {
-      const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`;
       axios.get(url)
         .then(response => {
           this.weatherData = response.data;
