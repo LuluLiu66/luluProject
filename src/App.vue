@@ -68,4 +68,22 @@ nav a:hover {
 nav a.router-link-exact-active {
   color: #007bff;
 }
+
+@media (max-width: 768px) {
+  .app-container {
+    display: block;
+  }
+  
+  header {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+}
 </style>
