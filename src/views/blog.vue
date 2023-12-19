@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="blog-post">
     <el-row class="mb-4">
       <el-button>Default</el-button>
       <el-button type="primary">Primary</el-button>
@@ -11,8 +11,15 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'BlogPost',
+  // rest of your component logic
+}
+</script>
+
 <style lang="scss" scoped>
-.about {
+.blog-post {
   min-height: 100vh;
   display: flex;
   align-items: center;
