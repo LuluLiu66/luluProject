@@ -2,7 +2,7 @@
   <main class="container">
     <p class="time">Current Date and Time: {{ currentDate }}</p>
     <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
-    <p class="price">BTCUSDT Price: {{ ethusdtPrice }}</p>
+    <p class="price">ETHUSDT Price: {{ ethusdtPrice }}</p>
     <p class="price">BNBUSDT Price: {{ bnbusdtPrice }}</p>
     <button @click="fetchPrices">Refresh</button>
   </main>
