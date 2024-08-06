@@ -140,6 +140,7 @@ export default {
   justify-content: center;
   height: 100vh;
   font-family: Arial, sans-serif;
+  color: #000;
 }
 
 .time {

@@ -48,6 +48,8 @@ export default {
 
 <style scoped>
 .container {
+  width: 1000px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,6 +60,7 @@ export default {
 
 .time {
   font-size: 18px;
+  color: #000;
 }
 
 .price {

@@ -2,7 +2,7 @@
   <div class="weather-view">
     <el-row class="mb-4">
       <el-input v-model="city" placeholder="Enter city name"></el-input>
-      <el-button @click="getWeatherInfo">Get Weather</el-button>
+      <el-button @click="getWeatherInfo" style="margin-top: 12px">Get Weather</el-button>
     </el-row>
     <div v-if="weatherData" class="weather-info">
       <h2>Weather in {{ weatherData.name }}</h2>
@@ -46,6 +46,8 @@ export default {
 
 <style lang="scss" scoped>
 .weather-view {
+  width: 1000px;
+  max-width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -55,6 +57,7 @@ export default {
 }
 
 .weather-info {
+  margin-top: 24px;
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 10px;
