@@ -1,6 +1,6 @@
 <template>
-  <main class="container">
-    <div>
+  <main>
+    <div class="container">
       <div v-for="(item, index) in jokes" :key="index" style="margin-bottom: 12px">
         {{ item.content }}
       </div>
@@ -46,10 +46,6 @@ export default {
   color: #000;
   width: 1000px;
   max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
   font-family: Arial, sans-serif;
 }
