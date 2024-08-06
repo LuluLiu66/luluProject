@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Weather from '../views/Weather.vue'
 import News from '../views/News.vue'
+import IP from '../views/IP.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,7 +24,12 @@ const router = createRouter({
       path: '/news',
       name: 'NewsView',
       component: News
-    }
+    },
+    {
+      path: '/ip',
+      name: 'IPView',
+      component: IP
+    },
   ]
 })
 

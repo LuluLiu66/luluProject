@@ -5,6 +5,7 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/weather">Weather</RouterLink>
         <RouterLink to="/news">News</RouterLink>
+        <RouterLink to="/ip">IP</RouterLink>
       </nav>
     </header>
 

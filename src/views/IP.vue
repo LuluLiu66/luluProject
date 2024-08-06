@@ -16,7 +16,7 @@
     <div style="display: flex; gap: 8px">
       <div
         style="
-          width: 40%;
+          width: 400px;
           max-height: 500px;
           border: 1px solid black;
           overflow: scroll;
@@ -47,7 +47,7 @@
 
       <div
         style="
-          width: 60%;
+          width: 600px;
           max-height: 500px;
           border: 1px solid rgb(164, 15, 134);
           overflow: scroll;
@@ -133,7 +133,6 @@ export default {
 <style scoped>
 .container {
   width: 1000px;
-  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
