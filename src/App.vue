@@ -4,6 +4,7 @@
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/weather">Weather</RouterLink>
+        <RouterLink to="/news">News</RouterLink>
       </nav>
     </header>
 

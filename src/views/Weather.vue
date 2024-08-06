@@ -2,7 +2,7 @@
   <div class="weather-view">
     <el-row class="mb-4">
       <el-input v-model="city" placeholder="Enter city name"></el-input>
-      <el-button @click="getWeatherInfo(city)">Get Weather</el-button>
+      <el-button @click="getWeatherInfo">Get Weather</el-button>
     </el-row>
     <div v-if="weatherData" class="weather-info">
       <h2>Weather in {{ weatherData.name }}</h2>
@@ -28,8 +28,9 @@ export default {
     }
   },
   methods: {
-    getWeatherInfo(city) {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`
+    getWeatherInfo() {
+      if (!this.city) return
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${apikey}`
       axios
         .get(url)
         .then((response) => {
