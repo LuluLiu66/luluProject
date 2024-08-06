@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div style="display: flex; gap: 8px">
+    <div style="width: 100%; display: flex; gap: 8px">
       <div
         style="
           width: 40%;

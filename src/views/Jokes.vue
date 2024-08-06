@@ -1,8 +1,10 @@
 <template>
   <main class="container">
-    <div>My IP: {{ ipInfo.ip }}</div>
-    <div>ISP: {{ ipInfo.isp }}</div>
-    <div>DESC: {{ ipInfo.desc }}</div>
+    <div>
+      <div v-for="(item, index) in jokes" :key="index" style="margin-bottom: 12px">
+        {{ item.content }}
+      </div>
+    </div>
   </main>
 </template>
 
@@ -13,20 +15,20 @@ const APP_ID = 'eoereeqkjitpirjn'
 const APP_SECRET = 'xibyk77a7vFMbD7fIuPV0dm08fZiaGwk'
 
 export default {
-  name: 'IPView',
+  name: 'JokesView',
   data() {
     return {
-      ipInfo: {}
+      jokes: []
     }
   },
   methods: {
-    async fetchIP() {
+    async fetchJokes() {
       try {
         const res = await axios.get(
-          `https://www.mxnzp.com/api/ip/self?app_id=${APP_ID}&app_secret=${APP_SECRET}`
+          `https://www.mxnzp.com/api/jokes/list/random?app_id=${APP_ID}&app_secret=${APP_SECRET}`
         )
         if (res.status === 200) {
-          this.ipInfo = res?.data?.data || {}
+          this.jokes = res?.data?.data || []
         }
       } catch (error) {
         console.error(error)
@@ -34,7 +36,7 @@ export default {
     }
   },
   created() {
-    this.fetchIP()
+    this.fetchJokes()
   }
 }
 </script>

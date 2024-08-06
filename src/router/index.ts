@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Weather from '../views/Weather.vue'
 import News from '../views/News.vue'
+import Today from '../views/Today.vue'
+import Jokes from '../views/Jokes.vue'
 import IP from '../views/IP.vue'
 
 const router = createRouter({
@@ -24,6 +26,16 @@ const router = createRouter({
       path: '/news',
       name: 'NewsView',
       component: News
+    },
+    {
+      path: '/today',
+      name: 'TodayView',
+      component: Today
+    },
+    {
+      path: '/jokes',
+      name: 'JokesView',
+      component: Jokes
     },
     {
       path: '/ip',
