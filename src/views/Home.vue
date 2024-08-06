@@ -2,6 +2,7 @@
   <main class="container">
     <p class="time">Current Date and Time: {{ currentDate }}</p>
     <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
+    <p class="price">BTCUSDT Price: {{ ethusdtPrice }}</p>
     <p class="price">BNBUSDT Price: {{ bnbusdtPrice }}</p>
     <button @click="fetchPrices">Refresh</button>
   </main>
@@ -16,27 +17,31 @@ export default {
   data() {
     return {
       btcusdtPrice: null,
+      ethusdtPrice: null,
       bnbusdtPrice: null,
-      currentDate: null,
+      currentDate: null
     }
   },
   methods: {
     async fetchPrice(symbol) {
       try {
-        const response = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
-        return response.data.price;
+        const response = await axios.get(
+          `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+        )
+        return response.data.price
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     },
     async fetchPrices() {
-      this.btcusdtPrice = await this.fetchPrice('BTCUSDT');
-      this.bnbusdtPrice = await this.fetchPrice('BNBUSDT');
-      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
+      this.btcusdtPrice = await this.fetchPrice('BTCUSDT')
+      this.ethusdtPrice = await this.fetchPrice('ETHUSDT')
+      this.bnbusdtPrice = await this.fetchPrice('BNBUSDT')
     }
   },
   mounted() {
-    this.fetchPrices();
+    this.fetchPrices()
   }
 }
 </script>
@@ -51,7 +56,8 @@ export default {
   font-family: Arial, sans-serif;
 }
 
-.time, .price {
+.time,
+.price {
   font-size: 18px;
   color: #ff4500;
 }
