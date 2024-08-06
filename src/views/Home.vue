@@ -56,14 +56,14 @@ export default {
   font-family: Arial, sans-serif;
 }
 
-.time,
-.price {
+.time {
   font-size: 18px;
-  color: #ff4500;
 }
 
 .price {
   margin-top: 20px;
+  font-size: 18px;
+  color: #ff4500;
 }
 
 button {
@@ -71,13 +71,9 @@ button {
   padding: 10px 20px;
   font-size: 18px;
   color: #fff;
-  background-color: #ff4500;
+  background-color: #08efdb;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #ff5500;
 }
 </style>
