@@ -1,64 +1,104 @@
 <template>
   <main>
-    <div class="container" style="width: 1000px">
+    <div class="container">
       <div class="title">
-        If you want to retire at 30 and live until 90, how would you schedule your financial plan?
+        If retire in next year, How would you schedule your financial
+        plan?（如果明年开始退休的话，你会如何安排你的财务计划?）
       </div>
       <div class="input-group">
-        <label for="amount">Amount:</label>
+        <label for="amount">Amount:(储蓄总金额)</label>
         <input type="number" v-model="amount" id="amount" />
       </div>
+      <div class="input-group">
+        <label for="initialAge">Initial Age:（领取退休金开始年龄）</label>
+        <input type="number" v-model="initialAge" id="initialAge" />
+      </div>
+      <div class="input-group">
+        <label for="estimateAge">Estimate Age:（预估最终寿命年龄）</label>
+        <input type="number" v-model="estimateAge" id="estimateAge" />
+      </div>
       <div class="button-group">
-        <button @click="handleSubmit" class="btn">Submit</button>
+        <button @click="handleSubmit" class="btn">Submit（提交）</button>
       </div>
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
-      <div class="results" v-if="results.length" style="overflow-y: scroll; max-height: 400px">
-        <h2>Results:(Assuming the cpi rate and interest rate are roughly the same for 60 years)</h2>
-        <ul>
-          <li v-for="result in results" :key="result.year">
-            <span class="year-age">Year: {{ result.year }}, Age: {{ result.age }}</span
-            >,
-            <span class="salary-money"
-              >Salary: {{ result.salary.toFixed(2) }}, Left Money:
-              {{ result.leftMoney.toFixed(2) }}</span
-            >,
-            <span class="rates">
-              Interest Rate:{{ result.interestRate.toFixed(2) }} CPI Rate:
-              {{ result.cpiRate.toFixed(2) }},
-            </span>
-          </li>
-        </ul>
+      <div class="results-container">
+        <h2>
+          1 year deposit (CPI Rate = 1%-5%, Interest Rate = 1%-5%) 1年期存款(CPI利率= 1%-5%
+          ，利率=1%-5%)
+        </h2>
+        <div class="results" v-if="results.length">
+          <ul>
+            <li v-for="result in results" :key="result.year">
+              <span class="year-age"
+                >Year(年份): {{ result.year }}, Age(年龄): {{ result.age }}</span
+              >
+              <span class="salary-money"
+                >Salary(年退休金): {{ result.salary.toFixed(2) }}, Left Money(剩余金额):
+                {{ result.leftMoney.toFixed(2) }}</span
+              >
+              <span class="rates"
+                >Interest Rate(银行利率): {{ result.interestRate.toFixed(2) }} CPI
+                Rate(通货膨胀指数): {{ result.cpiRate.toFixed(2) }}</span
+              >
+            </li>
+          </ul>
+        </div>
+        <h2>
+          2 year deposit (CPI Rate = 1%-5%, Interest Rate = 2%-6%) 2年期存款(CPI利率= 1%-5%，利率=
+          2%-6%)
+        </h2>
+        <div class="results2" v-if="results2.length">
+          <ul>
+            <li v-for="result in results2" :key="result.year">
+              <span class="year-age"
+                >Year(年份): {{ result.year }}, Age(年龄): {{ result.age }}</span
+              >
+              <span class="salary-money"
+                >Salary(年退休金): {{ result.salary.toFixed(2) }}, Left Money(剩余金额):
+                {{ result.leftMoney.toFixed(2) }}</span
+              >
+              <span class="rates"
+                >Interest Rate(银行利率): {{ result.interestRate.toFixed(2) }} CPI
+                Rate(通货膨胀指数): {{ result.cpiRate.toFixed(2) }}</span
+              >
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </main>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
   name: 'FinanceView',
   data() {
     return {
       amount: null,
+      initialAge: null,
+      estimateAge: null,
+      errorMessage: '',
       results: [],
-      errorMessage: ''
+      results2: []
     }
   },
   methods: {
     calculateSalary() {
       let leftMoney = this.amount
-
-      const initialYear = 2025
-      const initialAge = 30
+      const initialYear = dayjs().year() + 1
+      const initialAge = this.initialAge
+      const estimateAge = this.estimateAge
+      const pensionDuration = estimateAge - initialAge
 
       this.results = []
 
-      for (var i = 1; i <= 60; i++) {
-        // Generate random cpiRate and interestRate between 0 and 3
-        const cpiRate = (100 + Math.random() * 3) / 100
-        const interestRate = (100 + Math.random() * 3) / 100
+      for (var i = 1; i <= pensionDuration; i++) {
+        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100 + 1
+        const interestRate = (Math.floor(Math.random() * 5) + 1) / 100 + 1
 
-        // Calculate the salary for this year
-        let salary = leftMoney / (60 - i + 1)
+        let salary = leftMoney / (pensionDuration - i + 1)
 
         if (i !== 1) {
           salary = salary * cpiRate
@@ -77,12 +117,53 @@ export default {
         })
       }
     },
+    calculateSalary2() {
+      let leftMoney = this.amount
+      const initialYear = dayjs().year() + 1
+      const initialAge = this.initialAge
+      const estimateAge = this.estimateAge
+      const pensionDuration = estimateAge - initialAge
+
+      this.results2 = []
+
+      for (var i = 1; i <= pensionDuration; i += 2) {
+        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100 + 1
+        const interestRate = (Math.floor(Math.random() * 5) + 2) / 100 + 1
+
+        let salary = leftMoney / ((pensionDuration - i + 1) / 2)
+
+        if (i !== 1) {
+          salary = salary * cpiRate
+          leftMoney = leftMoney * (interestRate - 1) * 2 + leftMoney - salary
+        } else {
+          leftMoney -= salary
+        }
+
+        this.results2.push({
+          year: initialYear + i - 1,
+          age: initialAge + i - 1,
+          salary: salary / 2,
+          leftMoney: leftMoney,
+          cpiRate: cpiRate,
+          interestRate: interestRate
+        })
+        this.results2.push({
+          year: initialYear + i,
+          age: initialAge + i,
+          salary: salary / 2,
+          leftMoney: leftMoney,
+          cpiRate: cpiRate,
+          interestRate: interestRate
+        })
+      }
+    },
     handleSubmit() {
-      if (!this.amount) {
-        this.errorMessage = 'Please fill in the amount before submitting.'
+      if (!this.amount || !this.initialAge || !this.estimateAge) {
+        this.errorMessage = 'Please fill in all fields before submitting.'
       } else {
         this.errorMessage = ''
         this.calculateSalary()
+        this.calculateSalary2()
       }
     }
   }
@@ -91,58 +172,52 @@ export default {
 
 <style scoped>
 .container {
-  color: #000;
-  width: 1000px;
-  max-width: 100%;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  box-sizing: border-box;
+  background-color: #f9f9f9;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .title {
   font-size: 1.5em;
   margin-bottom: 20px;
   text-align: center;
+  color: #333;
 }
 
 .input-group {
   margin-bottom: 15px;
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
 }
 
 .input-group label {
+  display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  color: #333;
 }
 
 .input-group input {
-  padding: 10px;
-  font-size: 1em;
+  width: 100%;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 .button-group {
+  text-align: center;
   margin-top: 20px;
 }
 
 .btn {
   padding: 10px 20px;
-  font-size: 1em;
-  color: #fff;
   background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .btn:hover {
@@ -151,42 +226,53 @@ export default {
 
 .error-message {
   color: red;
+  text-align: center;
   margin-top: 10px;
 }
 
-.results {
+.results-container {
+  max-height: 900px;
   margin-top: 20px;
-  width: 100%;
-  max-width: 800px;
 }
 
-.results h2 {
+.results,
+.results2 {
+  max-height: 400px;
+  overflow: scroll;
+  margin-bottom: 20px;
+}
+
+.results h2,
+.results2 h2 {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
 
-.results ul {
+.results ul,
+.results2 ul {
   list-style-type: none;
   padding: 0;
 }
 
-.results li {
-  background-color: #f9f9f9;
+.results li,
+.results2 li {
   padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.year-age,
+.salary-money,
+.rates {
+  display: block;
   margin-bottom: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
 }
 
 .year-age {
-  color: #0000ff; /* Blue color for Year and Age */
+  font-weight: bold;
 }
 
-.salary-money {
-  color: #ff0000; /* Red color for Salary and Left Money */
-}
-
+.salary-money,
 .rates {
-  color: #008000; /* Green color for CPI Rate and Interest Rate */
+  color: #555;
 }
 </style>
