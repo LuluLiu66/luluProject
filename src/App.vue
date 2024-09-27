@@ -3,6 +3,7 @@
     <header>
       <nav>
         <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/finance">Finance</RouterLink>
         <RouterLink to="/weather">Weather</RouterLink>
         <RouterLink to="/news">News</RouterLink>
         <RouterLink to="/today">Today</RouterLink>
