@@ -1,11 +1,10 @@
 <template>
   <main class="container">
     <p class="time">Current Date and Time: {{ currentDate }}</p>
-    <div>Welcome to Lulu's homepage</div>
-    <!-- <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
+    <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
     <p class="price">ETHUSDT Price: {{ ethusdtPrice }}</p>
     <p class="price">BNBUSDT Price: {{ bnbusdtPrice }}</p>
-    <button @click="fetchPrices">Refresh</button> -->
+    <button @click="fetchPrices">Refresh</button>
   </main>
 </template>
 
@@ -24,21 +23,21 @@ export default {
     }
   },
   methods: {
-    // async fetchPrice(symbol) {
-    //   try {
-    //     const response = await axios.get(
-    //       `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
-    //     )
-    //     return response.data.price
-    //   } catch (error) {
-    //     console.error(error)
-    //   }
-    // },
+    async fetchPrice(symbol) {
+      try {
+        const response = await axios.get(
+          `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
+        )
+        return response.data.price
+      } catch (error) {
+        console.error(error)
+      }
+    },
     async fetchPrices() {
       this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
-      // this.btcusdtPrice = await this.fetchPrice('BTCUSDT')
-      // this.ethusdtPrice = await this.fetchPrice('ETHUSDT')
-      // this.bnbusdtPrice = await this.fetchPrice('BNBUSDT')
+      this.btcusdtPrice = await this.fetchPrice('BTCUSDT')
+      this.ethusdtPrice = await this.fetchPrice('ETHUSDT')
+      this.bnbusdtPrice = await this.fetchPrice('BNBUSDT')
     }
   },
   mounted() {
@@ -51,8 +50,6 @@ export default {
 .container {
   width: 1000px;
   max-width: 100%;
-  color: #000;
-  font-size: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
