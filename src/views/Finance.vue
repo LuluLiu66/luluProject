@@ -13,7 +13,7 @@
       </div>
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="results" v-if="results.length" style="overflow-y: scroll; max-height: 400px">
-        <h2>Results:</h2>
+        <h2>Results:(Assuming the cpi rate and interest rate are roughly the same for 60 years)</h2>
         <ul>
           <li v-for="result in results" :key="result.year">
             <span class="year-age">Year: {{ result.year }}, Age: {{ result.age }}</span
