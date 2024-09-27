@@ -29,16 +29,16 @@
         <div class="results" v-if="results.length">
           <ul>
             <li v-for="result in results" :key="result.year">
+              <span class="rates"
+                >Interest Rate(银行利率): {{ result.interestRate }} CPI Rate(通货膨胀指数):
+                {{ result.cpiRate }}</span
+              >
               <span class="year-age"
                 >Year(年份): {{ result.year }}, Age(年龄): {{ result.age }}</span
               >
               <span class="salary-money"
-                >Salary(年退休金): {{ result.salary.toFixed(2) }}, Left Money(剩余金额):
-                {{ result.leftMoney.toFixed(2) }}</span
-              >
-              <span class="rates"
-                >Interest Rate(银行利率): {{ result.interestRate.toFixed(2) }} CPI
-                Rate(通货膨胀指数): {{ result.cpiRate.toFixed(2) }}</span
+                >Salary(年退休金): {{ result.salary }}, Left Money(剩余金额):
+                {{ result.leftMoney }}</span
               >
             </li>
           </ul>
@@ -50,16 +50,16 @@
         <div class="results2" v-if="results2.length">
           <ul>
             <li v-for="result in results2" :key="result.year">
+              <span class="rates"
+                >Interest Rate(银行利率): {{ result.interestRate }} CPI Rate(通货膨胀指数):
+                {{ result.cpiRate }}</span
+              >
               <span class="year-age"
                 >Year(年份): {{ result.year }}, Age(年龄): {{ result.age }}</span
               >
               <span class="salary-money"
-                >Salary(年退休金): {{ result.salary.toFixed(2) }}, Left Money(剩余金额):
-                {{ result.leftMoney.toFixed(2) }}</span
-              >
-              <span class="rates"
-                >Interest Rate(银行利率): {{ result.interestRate.toFixed(2) }} CPI
-                Rate(通货膨胀指数): {{ result.cpiRate.toFixed(2) }}</span
+                >Salary(年退休金): {{ result.salary }}, Left Money(剩余金额):
+                {{ result.leftMoney }}</span
               >
             </li>
           </ul>
@@ -95,14 +95,14 @@ export default {
       this.results = []
 
       for (var i = 1; i <= pensionDuration; i++) {
-        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100 + 1
-        const interestRate = (Math.floor(Math.random() * 5) + 1) / 100 + 1
+        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100
+        const interestRate = (Math.floor(Math.random() * 5) + 1) / 100
 
         let salary = leftMoney / (pensionDuration - i + 1)
 
         if (i !== 1) {
-          salary = salary * cpiRate
-          leftMoney = leftMoney * interestRate - salary
+          salary = salary * (cpiRate + 1)
+          leftMoney = leftMoney * interestRate + leftMoney - salary
         } else {
           leftMoney -= salary
         }
@@ -110,10 +110,10 @@ export default {
         this.results.push({
           year: initialYear + i - 1,
           age: initialAge + i - 1,
-          salary: salary,
-          leftMoney: leftMoney,
-          cpiRate: cpiRate,
-          interestRate: interestRate
+          salary: salary.toFixed(6),
+          leftMoney: leftMoney.toFixed(6),
+          cpiRate: i !== 1 ? `${cpiRate.toFixed(6) * 100}%` : '-',
+          interestRate: i !== 1 ? `${interestRate.toFixed(6) * 100}%` : '-'
         })
       }
     },
@@ -127,14 +127,14 @@ export default {
       this.results2 = []
 
       for (var i = 1; i <= pensionDuration; i += 2) {
-        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100 + 1
-        const interestRate = (Math.floor(Math.random() * 5) + 2) / 100 + 1
+        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100
+        const interestRate = (Math.floor(Math.random() * 5) + 2) / 100
 
         let salary = leftMoney / ((pensionDuration - i + 1) / 2)
 
         if (i !== 1) {
-          salary = salary * cpiRate
-          leftMoney = leftMoney * (interestRate - 1) * 2 + leftMoney - salary
+          salary = salary * (1 + cpiRate)
+          leftMoney = leftMoney * interestRate * 2 + leftMoney - salary
         } else {
           leftMoney -= salary
         }
@@ -142,18 +142,18 @@ export default {
         this.results2.push({
           year: initialYear + i - 1,
           age: initialAge + i - 1,
-          salary: salary / 2,
-          leftMoney: leftMoney,
-          cpiRate: cpiRate,
-          interestRate: interestRate
+          salary: (salary / 2).toFixed(6),
+          leftMoney: leftMoney.toFixed(6),
+          cpiRate: i !== 1 ? `${cpiRate.toFixed(6) * 100}%` : '-',
+          interestRate: i !== 1 ? `${interestRate.toFixed(6) * 100}%` : '-'
         })
         this.results2.push({
           year: initialYear + i,
           age: initialAge + i,
-          salary: salary / 2,
-          leftMoney: leftMoney,
-          cpiRate: cpiRate,
-          interestRate: interestRate
+          salary: (salary / 2).toFixed(6),
+          leftMoney: leftMoney.toFixed(6),
+          cpiRate: i !== 1 ? `${cpiRate.toFixed(6) * 100}%` : '-',
+          interestRate: i !== 1 ? `${interestRate.toFixed(6) * 100}%` : '-'
         })
       }
     },
