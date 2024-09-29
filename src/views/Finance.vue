@@ -22,20 +22,15 @@
       </div>
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
       <div class="results-container">
-        <h2>
-          1 year deposit (CPI Rate = 1%-5%, Interest Rate = 1%-5%) 1年期存款(CPI利率= 1%-5%
-          ，利率=1%-5%)
-        </h2>
+        <h2>1 year deposit(1年期存款)(可输入真实值)</h2>
         <div class="results" v-if="results.length">
           <ul>
             <li v-for="result in results" :key="result.year">
               <span class="rates"
-                >Interest Rate(银行利率): {{ result.interestRate }} CPI Rate(通货膨胀指数):
+                >previous 1 year Interest Rate: {{ result.interestRate }} previous 1 year CPI Rate:
                 {{ result.cpiRate }}</span
               >
-              <span class="year-age"
-                >Year(年份): {{ result.year }}, Age(年龄): {{ result.age }}</span
-              >
+              <span class="year-age">Year: {{ result.year }}, Age: {{ result.age }}</span>
               <span class="salary-money"
                 >Salary(年退休金): {{ result.salary }}, Left Money(剩余金额):
                 {{ result.leftMoney }}</span
@@ -43,20 +38,15 @@
             </li>
           </ul>
         </div>
-        <h2>
-          2 year deposit (CPI Rate = 1%-5%, Interest Rate = 2%-6%) 2年期存款(CPI利率= 1%-5%，利率=
-          2%-6%)
-        </h2>
+        <h2>2 year deposit(2年期存款)(可输入真实值)</h2>
         <div class="results2" v-if="results2.length">
           <ul>
             <li v-for="result in results2" :key="result.year">
               <span class="rates"
-                >Interest Rate(银行利率): {{ result.interestRate }} CPI Rate(通货膨胀指数):
-                {{ result.cpiRate }}</span
+                >Previous 2 year average Interest Rate: {{ result.interestRate }} Previous 2 year
+                average CPI Rate: {{ result.cpiRate }}</span
               >
-              <span class="year-age"
-                >Year(年份): {{ result.year }}, Age(年龄): {{ result.age }}</span
-              >
+              <span class="year-age">Year: {{ result.year }}, Age: {{ result.age }}</span>
               <span class="salary-money"
                 >Salary(年退休金): {{ result.salary }}, Left Money(剩余金额):
                 {{ result.leftMoney }}</span
@@ -81,25 +71,74 @@ export default {
       estimateAge: null,
       errorMessage: '',
       results: [],
-      results2: []
+      results2: [],
+      initialYear: 2025
     }
   },
   methods: {
+    getCPIRateList() {
+      const pensionDuration = this.estimateAge - this.initialAge
+      let objList = {}
+      for (var i = 1; i <= pensionDuration; i++) {
+        const year = this.initialYear + i - 1
+        // it means 1% - 4%
+        const cpiRate = (Math.floor(Math.random() * 4) + 1) / 100
+        objList[year] = cpiRate
+      }
+      // if need modify can input real data here to overwrite previous data
+      return objList
+    },
+    getInterestRateList() {
+      const pensionDuration = this.estimateAge - this.initialAge
+      let objList = {}
+      for (var i = 1; i <= pensionDuration; i++) {
+        const year = this.initialYear + i - 1
+        // it means 1% - 4%
+        const interestRate = (Math.floor(Math.random() * 4) + 1) / 100
+        objList[year] = interestRate
+      }
+      // if need modify can input real data here to overwrite previous data
+      return objList
+    },
+    getCPIRateList2() {
+      const pensionDuration = this.estimateAge - this.initialAge
+      let objList = {}
+      for (var i = 1; i <= pensionDuration; i += 2) {
+        const year = this.initialYear + i - 1
+        // it means 1% - 4%
+        const cpiRate = (Math.floor(Math.random() * 4) + 1) / 100
+        objList[year] = cpiRate
+      }
+      // if need modify can input real data here to overwrite previous data
+      return objList
+    },
+    getInterestRateList2() {
+      const pensionDuration = this.estimateAge - this.initialAge
+      let objList = {}
+      for (var i = 1; i <= pensionDuration; i += 2) {
+        const year = this.initialYear + i - 1
+        // it means 1.5% - 4.5%
+        const interestRate = (Math.floor(Math.random() * 4) + 1.5) / 100
+        objList[year] = interestRate
+      }
+      // if need modify can input real data here to overwrite previous data
+      return objList
+    },
     calculateSalary() {
       let leftMoney = this.amount
-      const initialYear = dayjs().year() + 1
-      const initialAge = this.initialAge
-      const estimateAge = this.estimateAge
-      const pensionDuration = estimateAge - initialAge
+      const pensionDuration = this.estimateAge - this.initialAge
+      const cpiRateList = this.getCPIRateList()
+      const interestRateList = this.getInterestRateList()
 
       this.results = []
-
       for (var i = 1; i <= pensionDuration; i++) {
-        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100
-        const interestRate = (Math.floor(Math.random() * 5) + 1) / 100
+        const year = this.initialYear + i - 1
+        const age = this.initialAge + i - 1
+
+        const cpiRate = cpiRateList?.[year]
+        const interestRate = interestRateList?.[year]
 
         let salary = leftMoney / (pensionDuration - i + 1)
-
         if (i !== 1) {
           salary = salary * (cpiRate + 1)
           leftMoney = leftMoney * interestRate + leftMoney - salary
@@ -108,8 +147,8 @@ export default {
         }
 
         this.results.push({
-          year: initialYear + i - 1,
-          age: initialAge + i - 1,
+          year,
+          age,
           salary: salary.toFixed(6),
           leftMoney: leftMoney.toFixed(6),
           cpiRate: i !== 1 ? `${cpiRate.toFixed(6) * 100}%` : '-',
@@ -119,41 +158,44 @@ export default {
     },
     calculateSalary2() {
       let leftMoney = this.amount
-      const initialYear = dayjs().year() + 1
-      const initialAge = this.initialAge
-      const estimateAge = this.estimateAge
-      const pensionDuration = estimateAge - initialAge
+      const pensionDuration = this.estimateAge - this.initialAge
+      const cpiRateList = this.getCPIRateList2() || {}
+      const interestRateList = this.getInterestRateList2() || {}
 
       this.results2 = []
-
       for (var i = 1; i <= pensionDuration; i += 2) {
-        const cpiRate = (Math.floor(Math.random() * 5) + 1) / 100
-        const interestRate = (Math.floor(Math.random() * 5) + 2) / 100
+        // adopt the first year between 2 year
+        const year = this.initialYear + i - 1
+        const age = this.initialAge + i - 1
 
-        let salary = leftMoney / ((pensionDuration - i + 1) / 2)
+        // cpi and interest rate between 2 year
+        const cpiRate = cpiRateList?.[year]
+        const interestRate = interestRateList?.[year]
 
+        // salary is 2 year total
+        let salary2 = leftMoney / ((pensionDuration - i + 1) / 2)
         if (i !== 1) {
-          salary = salary * (1 + cpiRate)
-          leftMoney = leftMoney * interestRate * 2 + leftMoney - salary
+          salary2 = salary2 * (1 + cpiRate)
+          leftMoney = leftMoney * interestRate * 2 + leftMoney - salary2
         } else {
-          leftMoney -= salary
+          leftMoney -= salary2
         }
 
         this.results2.push({
-          year: initialYear + i - 1,
-          age: initialAge + i - 1,
-          salary: (salary / 2).toFixed(6),
+          year,
+          age,
+          salary: (salary2 / 2).toFixed(6),
           leftMoney: leftMoney.toFixed(6),
           cpiRate: i !== 1 ? `${cpiRate.toFixed(6) * 100}%` : '-',
           interestRate: i !== 1 ? `${interestRate.toFixed(6) * 100}%` : '-'
         })
         this.results2.push({
-          year: initialYear + i,
-          age: initialAge + i,
-          salary: (salary / 2).toFixed(6),
-          leftMoney: leftMoney.toFixed(6),
-          cpiRate: i !== 1 ? `${cpiRate.toFixed(6) * 100}%` : '-',
-          interestRate: i !== 1 ? `${interestRate.toFixed(6) * 100}%` : '-'
+          year: year + 1,
+          age: age + 1,
+          salary: (salary2 / 2).toFixed(6),
+          leftMoney: '-',
+          cpiRate: '-',
+          interestRate: '-'
         })
       }
     },
