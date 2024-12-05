@@ -50,3 +50,11 @@ npm run test:unit
 ```sh
 npm run lint
 ```
+
+### how to deploy
+firebase(make sure Firebase CLI has been installed: npm install -g firebase-tools)
+firebase login (will redirect to a successful website)
+// firebase login —reauth (no need)
+// firebase init (no need)
+npm run build
+firebase deploy

@@ -21,7 +21,15 @@
         <button @click="handleSubmit" class="btn">Submit（提交）</button>
       </div>
       <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
+
+      <div>
+        <a href="https://www.ceicdata.com/zh-hans/indicator/china/consumer-price-index-cpi-growth" target="_blank">CPI data</a>
+        <span> | </span>
+        <a href="https://www.ceicdata.com/zh-hans/indicator/china/long-term-interest-rate" target="_blank">Rate of bond interest</a>
+      </div>
+
       <div class="results-container">
+        <div class="results-tab">
         <h2>1 year deposit(1年期存款)(可输入真实值)</h2>
         <div class="results" v-if="results.length">
           <ul>
@@ -38,6 +46,9 @@
             </li>
           </ul>
         </div>
+        </div>
+        
+        <div class="results-tab">
         <h2>2 year deposit(2年期存款)(可输入真实值)</h2>
         <div class="results2" v-if="results2.length">
           <ul>
@@ -54,6 +65,8 @@
             </li>
           </ul>
         </div>
+        </div>
+
       </div>
     </div>
   </main>
@@ -100,30 +113,6 @@ export default {
       // if need modify can input real data here to overwrite previous data
       return objList
     },
-    getCPIRateList2() {
-      const pensionDuration = this.estimateAge - this.initialAge
-      let objList = {}
-      for (var i = 1; i <= pensionDuration; i += 2) {
-        const year = this.initialYear + i - 1
-        // it means 1% - 4%
-        const cpiRate = (Math.floor(Math.random() * 4) + 1) / 100
-        objList[year] = cpiRate
-      }
-      // if need modify can input real data here to overwrite previous data
-      return objList
-    },
-    getInterestRateList2() {
-      const pensionDuration = this.estimateAge - this.initialAge
-      let objList = {}
-      for (var i = 1; i <= pensionDuration; i += 2) {
-        const year = this.initialYear + i - 1
-        // it means 1.5% - 4.5%
-        const interestRate = (Math.floor(Math.random() * 4) + 1.5) / 100
-        objList[year] = interestRate
-      }
-      // if need modify can input real data here to overwrite previous data
-      return objList
-    },
     calculateSalary() {
       let leftMoney = this.amount
       const pensionDuration = this.estimateAge - this.initialAge
@@ -155,6 +144,30 @@ export default {
           interestRate: i !== 1 ? `${interestRate.toFixed(6) * 100}%` : '-'
         })
       }
+    },
+    getCPIRateList2() {
+      const pensionDuration = this.estimateAge - this.initialAge
+      let objList = {}
+      for (var i = 1; i <= pensionDuration; i += 2) {
+        const year = this.initialYear + i - 1
+        // it means 1% - 4%
+        const cpiRate = (Math.floor(Math.random() * 4) + 1) / 100
+        objList[year] = cpiRate
+      }
+      // if need modify can input real data here to overwrite previous data
+      return objList
+    },
+    getInterestRateList2() {
+      const pensionDuration = this.estimateAge - this.initialAge
+      let objList = {}
+      for (var i = 1; i <= pensionDuration; i += 2) {
+        const year = this.initialYear + i - 1
+        // it means 1.5% - 4.5%
+        const interestRate = (Math.floor(Math.random() * 4) + 1.5) / 100
+        objList[year] = interestRate
+      }
+      // if need modify can input real data here to overwrite previous data
+      return objList
     },
     calculateSalary2() {
       let leftMoney = this.amount
@@ -273,8 +286,14 @@ export default {
 }
 
 .results-container {
+  display: flex;
+  gap: 20px;
   max-height: 900px;
   margin-top: 20px;
+}
+
+.results-tab {
+  width: 50%;
 }
 
 .results,
