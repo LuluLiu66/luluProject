@@ -3,7 +3,7 @@
     <p class="time">Current Date and Time: {{ currentDate }}</p>
     <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
     <p class="price">ETHUSDT Price: {{ ethusdtPrice }}</p>
-    <p class="price">BNBUSDT Price: {{ bnbusdtPrice }}</p>
+    <p class="price">TRUMPUSDT Price: {{ trumpusdtPrice }}</p>
     <button @click="fetchPrices">Refresh</button>
   </main>
 </template>
@@ -18,7 +18,7 @@ export default {
     return {
       btcusdtPrice: null,
       ethusdtPrice: null,
-      bnbusdtPrice: null,
+      trumpusdtPrice: null,
       currentDate: null
     }
   },
@@ -37,7 +37,7 @@ export default {
       this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
       this.btcusdtPrice = await this.fetchPrice('BTCUSDT')
       this.ethusdtPrice = await this.fetchPrice('ETHUSDT')
-      this.bnbusdtPrice = await this.fetchPrice('BNBUSDT')
+      this.trumpusdtPrice = await this.fetchPrice('TRUMPUSDT')
     }
   },
   mounted() {
