@@ -3,7 +3,12 @@
     <p class="time">Current Date and Time: {{ currentDate }}</p>
     <p class="price">BTCUSDT Price: {{ btcusdtPrice }}</p>
     <p class="price">ETHUSDT Price: {{ ethusdtPrice }}</p>
+    <p class="price">XRPUSDT Price: {{ xrpusdtPrice }}</p>
     <p class="price">BNBUSDT Price: {{ bnbusdtPrice }}</p>
+    <p class="price">SOLUSDT Price: {{ solusdtPrice }}</p>
+    <p class="price">DOGEUSDT Price: {{ dogeusdtPrice }}</p>
+    <p class="price">TRUMPUSDT Price: {{ trumpusdtPrice }}</p>
+    <p class="price">TRXUSDT Price: {{ trxusdtPrice }}</p>
     <button @click="fetchPrices">Refresh</button>
   </main>
 </template>
@@ -18,7 +23,12 @@ export default {
     return {
       btcusdtPrice: null,
       ethusdtPrice: null,
+      xrpusdtPrice: null,
       bnbusdtPrice: null,
+      solusdtPrice: null,
+      dogeusdtPrice: null,
+      trumpusdtPrice: null,
+      trxusdtPrice: null,
       currentDate: null
     }
   },
@@ -37,7 +47,12 @@ export default {
       this.currentDate = dayjs().format('YYYY-MM-DD HH:mm:ss')
       this.btcusdtPrice = await this.fetchPrice('BTCUSDT')
       this.ethusdtPrice = await this.fetchPrice('ETHUSDT')
+      this.xrpusdtPrice = await this.fetchPrice('XRPUSDT')
       this.bnbusdtPrice = await this.fetchPrice('BNBUSDT')
+      this.solusdtPrice = await this.fetchPrice('SOLUSDT')
+      this.dogeusdtPrice = await this.fetchPrice('DOGEUSDT')
+      this.trumpusdtPrice = await this.fetchPrice('TRUMPUSDT')
+      this.trxusdtPrice = await this.fetchPrice('TRXUSDT')
     }
   },
   mounted() {
