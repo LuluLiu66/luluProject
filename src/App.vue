@@ -67,7 +67,7 @@ nav a.router-link-exact-active {
   flex-grow: 1;
   margin-left: 200px;
   padding: 20px;
-  background-color: #fff;
+  /* background-color: #fff; */
   height: 100vh;
   overflow-y: auto;
 }
